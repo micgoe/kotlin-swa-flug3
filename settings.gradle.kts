@@ -15,4 +15,4 @@ pluginManagement {
     }
 }
 
-rootProject.name = "kunde"
+rootProject.name = "flug"
