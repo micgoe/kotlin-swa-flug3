@@ -1,0 +1,19 @@
+{
+    "flugnummer": "",
+    "abflugFlughafen": {
+        "iata": "ATL",
+        "name": "HartsfieldâJackson Atlanta International Airport",
+        "land": "United States of America"
+    },
+    "ankunftFlughafen": {
+        "iata": "FRA",
+        "name": "Frankfurt Airport",
+        "land": "Deutschland"
+    },
+    "gate": 4,
+    "airline": "Turkish Airlines",
+    "status": "GO",
+    "abflugzeit": "2020-02-27T14:48:00",
+    "ankunftzeit": "2020-02-27T15:48:00",
+    "flugzeugtyp": "Boing 737"
+}
