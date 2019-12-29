@@ -36,6 +36,16 @@ import org.springframework.web.reactive.function.server.awaitBody
 import org.springframework.web.reactive.function.server.bodyValueAndAwait
 import org.springframework.web.reactive.function.server.buildAndAwait
 
+/**
+ * Eine Handler-Function wird von der Router-Function [de.hska.flug.Router.router]
+ * aufgerufen, nimmt einen Request entgegen und erstellt den Response.
+ *
+ * [Klassendiagramm](../../../../docs/images/FlugHandler.png)
+ *
+ * @author [Michael Goehrig](mailto:goja1014@HS-Karlsruhe.de)
+ *
+ * @constructor Einen FlugHandler mit einem injizierten [FlugService] erzeugen.
+ */
 @Component
 @Suppress("TooManyFunctions")
 class FlugHandler(
@@ -44,6 +54,11 @@ class FlugHandler(
     private val listModelAssembler: ListFlugModelAssembler
 ) {
 
+    /**
+     * Suche anhand der ID
+     * @param request einghender Request
+     * @return ServerResponse
+     */
     suspend fun findById(request: ServerRequest): ServerResponse {
         val idStr = request.pathVariable(idPathVar)
         val id = UUID.fromString(idStr)
@@ -71,6 +86,7 @@ class FlugHandler(
         return ok().eTag("\"$flug.version}\"").bodyValueAndAwait(flugModel)
     }
 
+
     private fun getIfNoneMatch(request: ServerRequest): String? {
         val versionHeaderList = try {
             request.headers().asHttpHeaders().ifNoneMatch
@@ -83,6 +99,11 @@ class FlugHandler(
         return versionHeader
     }
 
+    /**
+     * Finde Flugobjekte auf Basis des ServerRequests
+     * @param request einghender Request mit QueryParametern
+     * @return ServerResponse Objekt mit den gefundenen Flügen oder StatusCode 204
+     */
     suspend fun find(request: ServerRequest): ServerResponse {
         val queryParams = request.queryParams()
         val fluege = mutableListOf<Flug>()
@@ -101,6 +122,11 @@ class FlugHandler(
         return ok().bodyValueAndAwait(fluegeModel)
     }
 
+    /**
+     * Anlegen eines neuen Fluges
+     * @param request Einghender Request mit den Flugdaten im Body
+     * @return ServerResponse mit Statuscode 201 und LocationHeader oder 400 wenn nicht erfolgreich (Constraints Verletzt oder JSON syntaktisch inkorrekt)
+     */
     @Suppress("ReturnCount")
     suspend fun create(request: ServerRequest): ServerResponse {
         val flug = try {
@@ -124,6 +150,11 @@ class FlugHandler(
         return created(location).buildAndAwait()
     }
 
+    /**
+     * Ändern eines bestehenden Fluges
+     * @param request Einghender Request mit neuem Datensatz im Body
+     * @return ServerResponse mit Statuscode 204 oder 400 wenn nicht erfolgreich (Constraints Verletzt oder JSON syntaktisch inkorrekt)
+     */
     @Suppress("MagicNumber", "ReturnCount")
     suspend fun update(request: ServerRequest): ServerResponse {
         var version = getIfMatch(request)
@@ -176,6 +207,11 @@ class FlugHandler(
         return noContent().eTag("\"$updatedFlug.version}\"").buildAndAwait() // Muss mit "" umklammert sein
     }
 
+    /**
+     * Löschen eines bestehenden Fluges
+     * @param request Einghender Request mit ID als Pfad Parameter
+     * @return ServerResponse mit Statuscode 204
+     */
     suspend fun deleteById(request: ServerRequest): ServerResponse {
         val idStr = request.pathVariable(idPathVar)
         val id = UUID.fromString(idStr)

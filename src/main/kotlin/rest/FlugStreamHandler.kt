@@ -10,6 +10,15 @@ import org.springframework.web.reactive.function.server.ServerResponse
 import org.springframework.web.reactive.function.server.ServerResponse.ok
 import org.springframework.web.reactive.function.server.bodyAndAwait
 
+/**
+ * Eine Handler-Function wird von der Router-Function [de.hska.flug.Router.router]
+ * aufgerufen, nimmt einen Request entgegen und erstellt den Response.
+ *
+ * @author [Michael Goehrig](mailto:goja1014@HS-Karlsruhe.de)
+ *
+ * @constructor Einen FlugStreamHandler mit einem injizierten
+ *      [de.hska.kunde.service.FlugStreamService] erzeugen.
+ */
 @Component
 class FlugStreamHandler(private val service: FlugService, private val modelAssembler: ListFlugModelAssembler) {
 

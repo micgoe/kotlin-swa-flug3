@@ -30,6 +30,13 @@ import org.springframework.data.mongodb.core.update
 import org.springframework.stereotype.Service
 import org.springframework.util.MultiValueMap
 
+/**
+ * Anwendungslogik für Flug.
+ *
+ * [Klassendiagramm](../../../../docs/images/FlugService.png)
+ *
+ * @author [Michael Goehrig](mailto:goja1014@HS-Karlsruhe.de)
+ */
 @Service
 class FlugService(
     private val mongo: ReactiveFluentMongoOperations,
@@ -40,6 +47,13 @@ class FlugService(
 
     private val validator by lazy { validatorFactory.validator }
 
+
+    /**
+     * Ein Flug mit seiner ID suchen
+     *
+     * @param id Id zur Ermittlung des gesuchten Fluges
+     * @return Das gesuchte Flugobjekt oder ein Mono
+     */
     suspend fun findById(id: UUID): Flug? {
         val flug = mongo.query<Flug>()
             .matching(query(Flug::id isEqualTo id))
@@ -48,6 +62,11 @@ class FlugService(
         return flug
     }
 
+    /**
+     * Alle Flüge passend zu den Query Paramertern finden
+     * @param queryParams Eine Map mit den Name des Queryparamters als erster Wert und dem Wert des Querys als zweiter Wert
+     * @return Gefundene Flüge
+     */
     @Suppress("ReturnCount")
     suspend fun find(queryParams: MultiValueMap<String, String>): Flow<Flug> {
         if (queryParams.isEmpty()) {
@@ -71,8 +90,17 @@ class FlugService(
         // Warum onEach und nicht forEach? Was ist der Unteschied
     }
 
+    /**
+     * Nach allen Flügen suchen
+     * @return Alle Flüge
+     */
     suspend fun findAll() = mongo.query<Flug>().flow()
 
+    /**
+     * Ein neuen Flug anlegen
+     * @param flug Das anzulegende Flugobjekt
+     * @return Das eingefügte Flugobjekt
+     */
     @Suppress("MaxLineLength")
     suspend fun create(flug: Flug): Flug {
         /* Eventuelle Überprüfung ob Flug schon existiert -> Nicht notwendig bzw. möglich,
@@ -88,6 +116,14 @@ class FlugService(
         return mongo.insert<Flug>().oneAndAwait(flug)
     }
 
+    /**
+     * Einen vorhandenen Flug abändern
+     * @param flug Das neue Flugobjekt
+     * @param id Die id de zu änderten Flugobjekts
+     * @param versionStr Versionsnummer
+     * @throws InvalidVersionException falls die Versionsnummer nicht korrekt ist
+     *
+     */
     suspend fun update(flug: Flug, id: UUID, versionStr: String): Flug? {
         // authorizeUser(username, roleMitarbeiterStr)
         validate(flug)
@@ -102,6 +138,11 @@ class FlugService(
             .findReplaceAndAwait()
     }
 
+    /**
+     * Einen vorhandenen Flug löschen
+     * @param id Id des zu löschenden Fluges
+     * @return DeleteResult, falls das zu löschende Objekt existierte, sonst null
+     */
     // @PreAuthorize("hasRole($roleMitarbeiterStr)")
     suspend fun deleteById(id: UUID): DeleteResult {
         val flug = findById(id)
@@ -112,6 +153,11 @@ class FlugService(
         return res
     }
 
+    /**
+     * Den User authentifizieren
+     * @param username Username des Benutzers
+     * @param role Rolle des Benutzers
+     */
     private suspend fun authorizeUser(username: String, role: String) {
         val userDetails = userService.findByUsernameAndAwait(username) ?: throw InvalidAccountException(username)
         val rollen = userDetails.authorities.map { it.authority }
@@ -119,6 +165,10 @@ class FlugService(
             throw AccessForbiddenException(rollen)
     }
 
+    /**
+     * Validierung eines Flugobjekts
+     * @param flug Das zu validierende Objekt
+     */
     private fun validate(flug: Flug) {
         val violations = validator.validate(flug)
         if (violations.isNotEmpty()) {

@@ -10,6 +10,15 @@ import org.springframework.web.reactive.function.server.coRouter
 
 interface Router {
 
+    /**
+     * Bean Funktion um die Routen von SpringWebFlux zu konfigurieren
+     *
+     *@param handler Objekt der Handler Klasse [FlugHandler] um Request zu bearbeiten
+     *
+     *@param streamHandler Objekt der Stream Handler Klasse [FlugStreamHandler] um Streams zu verarbeiten
+     *
+     */
+
     @Bean
     @Suppress("SpringJavaInjectionPointsAutowiringInspection", "LongMethod")
     fun router(handler: FlugHandler, streamHandler: FlugStreamHandler) = coRouter {
@@ -29,13 +38,28 @@ interface Router {
     }
 
     companion object {
+        /**
+         * Name der Pfadvariable für Ids
+         */
         const val idPathVar = "id"
+
+        /**
+         * Das Pattern für die Pfadvariable ID
+         */
         const val idPathPattern = "{$idPathVar:${Flug.ID_PATTERN}}"
 
+        /**
+         * Pfad für Multimedia Dateien
+         */
         const val multimediaPath = "/multimedia"
+        /**
+         * Pfad für Authentifizierung
+         */
         const val authPath = "/auth"
+        /**
+         * Pfad um Version abzufragen
+         */
         const val versionPath = "/version"
-        const val prefixPathVar = "prefix"
 
         // private val logger = logger()
     }
