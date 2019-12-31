@@ -30,7 +30,7 @@ import org.springframework.security.crypto.scrypt.SCryptPasswordEncoder
  * Interface, um einen CommandLineRunner zur Ausgabe für
  * Verschlüsselungsverfahren bereitzustellen.
  *
- * @author [Jürgen Zimmermann](mailto:Juergen.Zimmermann@HS-Karlsruhe.de)
+ * @author [Michael Goehrig](mailto: goja1014@HS-Karlsruhe.de)
  */
 interface LogPasswordEncoding {
     /**

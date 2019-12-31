@@ -24,7 +24,7 @@ import reactor.core.publisher.Flux
 /**
  * Testdaten für Benutzernamen, Passwörter und Rollen
  *
- * @author [Jürgen Zimmermann](mailto:Juergen.Zimmermann@HS-Karlsruhe.de)
+ * @author [Michael Goehrig](mailto: goja1014@HS-Karlsruhe.de)
  */
 @Suppress("UnderscoresInNumericLiterals")
 object Daten {

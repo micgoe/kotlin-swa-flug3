@@ -45,7 +45,7 @@ import org.springframework.data.mongodb.core.schema.MongoJsonSchema
 /**
  * Interface, um im Profil _dev_ die (Test-) DB neu zu laden.
  *
- * @author [Jürgen Zimmermann](mailto:Juergen.Zimmermann@HS-Karlsruhe.de)
+ * @author [Michael Goehrig](mailto: goja1014@HS-Karlsruhe.de)
  */
 interface DbPopulate {
     /**
@@ -58,7 +58,7 @@ interface DbPopulate {
     @Description("Test-DB neu laden")
     fun dbPopulate(mongo: ReactiveMongoOperations) = CommandLineRunner {
         val logger = getLogger(DbPopulate::class.java)
-        logger.warn("Neuladen der Collection 'Kunde'")
+        logger.warn("Neuladen der Collection 'Flug'")
 
         runBlocking {
             mongo.dropCollection<Flug>().awaitFirstOrNull()

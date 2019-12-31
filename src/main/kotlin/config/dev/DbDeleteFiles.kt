@@ -26,7 +26,7 @@ import org.springframework.data.mongodb.gridfs.GridFsOperations
 /**
  * Interface, um im Profil _dev_ die Dateien in _GridFS_ zu löschen.
  *
- * @author [Jürgen Zimmermann](mailto:Juergen.Zimmermann@HS-Karlsruhe.de)
+ * @author [Michael Goehrig](mailto: goja1014@HS-Karlsruhe.de)
  */
 interface DbDeleteFiles {
     /**

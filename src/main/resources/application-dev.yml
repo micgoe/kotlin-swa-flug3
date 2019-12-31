@@ -50,7 +50,7 @@ logging:
 
     # reactor.netty.http.client: DEBUG
 
-kunde:
+flug:
   # SonarQube "Credentials should not be hard-coded"
   password: p
   passwordFalsch: Falsch

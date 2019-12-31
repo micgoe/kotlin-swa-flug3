@@ -14,6 +14,23 @@ import org.springframework.data.annotation.CreatedDate
 import org.springframework.data.annotation.LastModifiedDate
 import org.springframework.data.annotation.Version
 
+/**
+ * Entity-Klasse für FLug. Unveränderinglich und in DDD ein "Aggregate Root"
+ *
+ * @author [Michael Goehrig](mailto: goja1014@HS-Karlsruhe.de)
+ *
+ * @param id Einen für den Flug eindeutig identifizierbare ID
+ * @param version Das Version-Tag
+ * @param flugnummer Die Flugnummer des Fluges
+ * @param abflugFlughafen Der Flughafen auf dem das Flugzeug startet
+ * @param ankunftFlughafen Der Flughafen auf dem das Flugzeug landet
+ * @param abflugzeit Der Abflugzeitpunkt
+ * @param ankunftzeit Der Ankunftszeitpunkt
+ * @param gate Das Gate des Abflug-Flughafen
+ * @param flugzeugtyp Der Flugzeugtyp des Fluges
+ * @param airline Die Airline des angebotenen Fluges
+ * @param status Der aktuelles Status des Fluges
+ */
 @JsonPropertyOrder(
     "flugnummer", "abflugFlughafen", "ankunftFlughafen", "abflugZeit",
     "ankunftZeit", "gate", "flugzeug", "airline", "status"
@@ -64,6 +81,11 @@ data class Flug(
     private val aktualisiert: LocalDateTime? = null
 ) {
 
+    /**
+     *  Ein Flug kann als gleich behandelt werden, ist die Flugnummer und die Abflugzeit die gleiche. equals überprüft diese Faktoren
+     *  @param Das zu vergleichende Objekt
+     *  @return true wenn es gleich ist, false wenn es ungleich ist
+     */
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
         if (javaClass != other?.javaClass) return false
@@ -71,14 +93,23 @@ data class Flug(
         return flugnummer == other.flugnummer && abflugzeit == other.abflugzeit
     }
 
+    /**
+     * Der Hashcodes des Flugobjektes. Berechnet aus der Flugnummer und der Abflugzeit
+     */
     override fun hashCode() = flugnummer.hashCode() + abflugzeit.hashCode()
 
+    /**
+     * Eine Ausgabe des Fluges als String
+     */
     override fun toString() = "Flug(id=$id, flugnummer=$flugnummer, abflugFlughafen=$abflugFlughafen, " +
             "ankunftFlughafen=$ankunftFlughafen, abflugzeit=$abflugzeit, ankunftzeit=$ankunftzeit, gate=$gate, " +
             "flugzeugtyp=$flugzeugtyp, airline=$airline, status=$status, erzeugt=$erzeugt, aktualisiert=$aktualisiert"
 
     companion object {
         private const val HEX_PATTERN = "[\\dA-Fa-f]"
+        /**
+         * Das Pattern der UUID
+         */
         const val ID_PATTERN = "$HEX_PATTERN{8}-$HEX_PATTERN{4}-$HEX_PATTERN{4}-$HEX_PATTERN{4}-$HEX_PATTERN{12}"
     }
 }

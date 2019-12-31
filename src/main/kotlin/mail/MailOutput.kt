@@ -14,26 +14,20 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+package de.hska.flug.mail
 
-package de.hska.flug.config.dev
-
-import de.hska.flug.config.Settings.DEV
-import org.springframework.context.annotation.Configuration
-import org.springframework.context.annotation.Profile
+import org.springframework.cloud.stream.annotation.Output
+import org.springframework.messaging.MessageChannel
 
 /**
- * Konfigurationsklasse für die Anwendung bzw. den Microservice,
- * falls das Profile _dev_ aktiviert ist.
- *
- * @author [Michael Goehrig](mailto: goja1014@HS-Karlsruhe.de)
+ * Der Name der Topic in Kafka wird festgelegt.
+ * @author [Michael Goehrig](mailto:goja1014@HS-Karlsruhe.de)
  */
-@Configuration(proxyBeanMethods = false)
-@Profile(DEV)
-class DevConfig :
-    CorsConfig,
-    DbDeleteFiles,
-    DbPopulate,
-    LogBasicAuth,
-    LogPasswordEncoding,
-    LogSignatureAlgorithms,
-    MongoMappingEventsListener
+interface MailOutput {
+    /**
+     * Der Name der Kafka-Partition wird festgelegt: _mail_.
+     * @return MessageChannel für Topic in Kafka oder Exchange in RabbitMQ
+     */
+    @Output("mail")
+    fun getChannel(): MessageChannel
+}

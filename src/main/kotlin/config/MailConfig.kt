@@ -23,7 +23,7 @@ import org.springframework.boot.context.properties.bind.DefaultValue
 /**
  * Spring-Konfiguration für Properties zu _Spring Boot_ `spring.mail.*`.
  *
- * @author Jürgen Zimmermann](mailto:Juergen.Zimmermann@HS-Karlsruhe.de)
+ * @author [Michael Goehrig](mailto: goja1014@HS-Karlsruhe.de)
  *
  * @constructor Ein Objekt zu den Properties `mail.*` für den Präfix `spring`.
  * @property mail Properties `spring.mail.*`.
@@ -54,8 +54,7 @@ class MailProps(var mail: Mail = Mail()) {
 /**
  * Spring-Konfiguration für Properties `mail.*`.
  *
- * @author Jürgen Zimmermann](mailto:Juergen.Zimmermann@HS-Karlsruhe.de)
- *
+ * @author Jürgen Zimmermann](mailto:Juergen.Zimmermann@HS-Karlsruhe.de) *
  * @constructor Ein Objekt zu den Properties `from`, `sales` und `topic` für den Präfix `mail`.
  * @property from Emailadresse für _from_, z.B. `Vorname Nachname <foo@test.de>`.
  * @property supervisor Emailadresse für den Vertrieb.

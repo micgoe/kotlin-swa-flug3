@@ -37,7 +37,7 @@ import reactor.kotlin.core.publisher.toMono
 /**
  * Spring-Konfiguration für den Zugriff auf _MongoDB_.
  *
- * @author Jürgen Zimmermann](mailto:Juergen.Zimmermann@HS-Karlsruhe.de)
+ * @author [Michael Goehrig](mailto: goja1014@HS-Karlsruhe.de)
  */
 interface DbConfig {
     /**

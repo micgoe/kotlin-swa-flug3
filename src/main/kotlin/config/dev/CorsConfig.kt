@@ -27,7 +27,7 @@ import org.springframework.web.cors.reactive.UrlBasedCorsConfigurationSource
  * - http://www.w3.org/TR/cors
  * - https://github.com/spring-projects/spring-framework/blob/master/src/docs/asciidoc/web/webflux-cors.adoc
  *
- * @author [Jürgen Zimmermann](mailto:Juergen.Zimmermann@HS-Karlsruhe.de)
+ * @author [Michael Goehrig](mailto: goja1014@HS-Karlsruhe.de)
  */
 interface CorsConfig {
     /**

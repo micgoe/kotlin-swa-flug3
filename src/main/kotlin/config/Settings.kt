@@ -25,7 +25,7 @@ import org.springframework.security.core.SpringSecurityCoreVersion
 /**
  * Singleton-Klasse, um sinnvolle Konfigurationswerte für den Microservice vorzugeben.
  *
- * @author [Jürgen Zimmermann](mailto:Juergen.Zimmermann@HS-Karlsruhe.de)
+ * @author [Michael Goehrig](mailto: goja1014@HS-Karlsruhe.de)
  */
 object Settings {
     /**

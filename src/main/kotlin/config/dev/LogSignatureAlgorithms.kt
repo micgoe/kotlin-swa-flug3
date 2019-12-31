@@ -25,7 +25,7 @@ import org.springframework.context.annotation.Profile
 /**
  * Interface, um im Profil _dev_ die im JDK vorhandenen _Signature_-Algorithmen aufzulisten.
  *
- * @author [Jürgen Zimmermann](mailto:Juergen.Zimmermann@HS-Karlsruhe.de)
+ * @author [Michael Goehrig](mailto: goja1014@HS-Karlsruhe.de)
  */
 interface LogSignatureAlgorithms {
     /**

@@ -24,7 +24,7 @@ import org.springframework.data.mongodb.core.mapping.event.LoggingEventListener
 /**
  * Interface, um bei MongoDB die MappingEvents zu protokollieren.
  *
- * @author [Jürgen Zimmermann](mailto:Juergen.Zimmermann@HS-Karlsruhe.de)
+ * @author [Michael Goehrig](mailto: goja1014@HS-Karlsruhe.de)
  */
 interface MongoMappingEventsListener {
     /**

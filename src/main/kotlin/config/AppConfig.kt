@@ -29,7 +29,7 @@ import org.springframework.security.config.annotation.web.reactive.EnableWebFlux
 /**
  * Konfigurationsklasse für die Anwendung bzw. den Microservice.
  *
- * @author [Jürgen Zimmermann](mailto:Juergen.Zimmermann@HS-Karlsruhe.de)
+ * @author [Michael Goehrig](mailto: goja1014@HS-Karlsruhe.de)
  */
 @Configuration(proxyBeanMethods = false)
 @EnableHypermediaSupport(type = [HAL], stacks = [WEBFLUX])

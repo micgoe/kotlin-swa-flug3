@@ -11,8 +11,9 @@ import org.springframework.data.mongodb.core.query.regex
 import org.springframework.util.MultiValueMap
 
 /**
- * Singleton-Klasse, die dazu dient Criteria Queries für MongoDb zu bauen
+ * Singleton-Klasse, die dazu dient Criteria Queries für MongoDb zu bauen.
  *
+ * @author [Michael Goehrig](mailto: goja1014@HS-Karlsruhe.de)
  */
 
 object CriteriaUtil {
@@ -28,6 +29,12 @@ object CriteriaUtil {
 
     private val logger = logger()
 
+    /**
+     * Baut Criteriaobjekte für Abfrage zusammen
+     *
+     * @param queryParams Map bestehendes aus dem Query-Name und dem Query-Value
+     * @return Gibt eine Liste mit CriteriaDefinition Objekten zurück
+     */
     @Suppress("ComplexMethod", "LongMethod")
     fun getCriteria(queryParams: MultiValueMap<String, String>): List<CriteriaDefinition?> {
         val criteria = queryParams.map { (key, value) ->

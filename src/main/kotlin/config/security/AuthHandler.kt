@@ -42,7 +42,7 @@ import org.springframework.web.reactive.function.server.buildAndAwait
  * Request-Handler, um die Rollen zur eigenen Benutzerkennung zu ermitteln.
  * Diese Funktionalität ist für "Software Engineering" im 4. Semester.
  *
- * @author [Jürgen Zimmermann](mailto:Juergen.Zimmermann@HS-Karlsruhe.de)
+ * @author [Michael Goehrig](mailto: goja1014@HS-Karlsruhe.de)
  */
 @Component
 class AuthHandler(private val mongo: ReactiveFindOperation) {

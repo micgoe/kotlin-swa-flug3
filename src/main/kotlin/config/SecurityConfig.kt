@@ -35,9 +35,8 @@ import org.springframework.security.web.server.SecurityWebFilterChain
 /**
  * Security-Konfiguration.
  *
- * @author [Jürgen Zimmermann](mailto:Juergen.Zimmermann@HS-Karlsruhe.de)
+ * @author [Michael Goehrig](mailto: goja1014@HS-Karlsruhe.de)
  */
-// https://github.com/spring-projects/spring-security/tree/master/samples
 interface SecurityConfig {
     /**
      * Bean-Definition, um den Zugriffsschutz an der REST-Schnittstelle zu

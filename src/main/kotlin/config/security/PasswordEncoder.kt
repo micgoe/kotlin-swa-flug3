@@ -25,7 +25,7 @@ import org.springframework.security.crypto.password.PasswordEncoder
  * Interface, um den Verschlüsselungsalgorithmus für Passwörter
  * bereitzustellen.
  *
- * @author [Jürgen Zimmermann](mailto:Juergen.Zimmermann@HS-Karlsruhe.de)
+ * @author [Michael Goehrig](mailto: goja1014@HS-Karlsruhe.de)
  */
 interface PasswordEncoder {
     /**

@@ -25,6 +25,11 @@ import java.time.LocalTime
 import java.util.UUID
 import kotlinx.coroutines.flow.flowOf
 
+/**
+ * Demo Flug-Daten für die Entwicklung
+ *
+ * @author [Michael Goehrig](mailto: goja1014@HS-Karlsruhe.de)
+ */
 @Suppress("MagicNumber", "UnderscoresInNumericLiterals")
 val fluege = flowOf(
     Flug(

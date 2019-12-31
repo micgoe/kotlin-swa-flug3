@@ -43,7 +43,7 @@ import reactor.core.publisher.Mono
 /**
  * Service-Klasse, um Benutzerkennungen zu suchen und neu anzulegen.
  *
- * @author [Jürgen Zimmermann](mailto:Juergen.Zimmermann@HS-Karlsruhe.de)
+ * @author [Michael Goehrig](mailto: goja1014@HS-Karlsruhe.de)
  */
 @Service
 class CustomUserDetailsService(

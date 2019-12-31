@@ -23,7 +23,7 @@ import org.springframework.data.mongodb.MongoTransactionManager
 /**
  * Spring-Konfiguration für den transaktionalen Zugriff auf _MongoDB_ .
  *
- * @author Jürgen Zimmermann](mailto:Juergen.Zimmermann@HS-Karlsruhe.de)
+ * @author [Michael Goehrig](mailto: goja1014@HS-Karlsruhe.de)
  */
 interface TransactionConfig {
     /**

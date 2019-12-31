@@ -1,0 +1,23 @@
+@startuml
+
+left to right direction
+skinparam packageStyle rect
+skinparam componentStyle uml2
+
+actor Mitarbeiter
+actor Kunde
+actor Admin
+
+rectangle flug {
+    Kunde --> (Flug suchen)
+    Mitarbeiter --> (Flug suchen)
+    Mitarbeiter --> (Flug ändern)
+    Mitarbeiter --> (Flug löschen)
+    Admin --> (Flug suchen)
+    Admin --> (Flug ändern)
+    Admin --> (Flug löschen)
+}
+
+footer (c) Michael Goehrig
+
+@enduml

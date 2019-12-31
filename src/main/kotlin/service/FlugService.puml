@@ -1,0 +1,57 @@
+@startuml
+skinparam classAttributeIconSize 0
+skinparam componentStyle uml2
+
+package kotlinx.coroutines.flow {
+package kotlinx.coroutines.flow {
+    interface Flow {
+    }
+}
+
+package org.springframework {
+    package data.mongodb.core {
+        interface ReactiveFluentMongoOperations {
+        }
+    }
+
+    package security.core {
+        interface Authentication {
+        }
+    }
+}
+
+package de.hska.flug {
+    package config.security {
+        class CustomUserDetailsService << control >> {
+        }
+    }
+
+    package entity {
+        class Flug << entity >> {
+        }
+    }
+
+    package service #DDDDDD {
+        FlugService --> "1" CustomUserDetailsService
+        FlugService --> "1" ReactiveFluentMongoOperations
+        FlugService ..> Flug
+        FlugService ..> Flow
+        FlugService ..> Authentication
+
+        class FlugService << control >> << @Service >> << @Validated >> {
+            + suspend findById(id: UUID): Flug
+            + find(queryParams: MultiValueMap<String, String>): Flow<Flug>
+            + @Transactional suspend create(flug: Flug): Flug
+            + suspend update(flug: Flug, id: UUID, version: String): Flug
+            + suspend deleteById(id: UUID): Flug
+        }
+    }
+}
+
+hide empty members
+hide empty methods
+hide empty fields
+
+footer (c) Jürgen Zimmermann
+
+@enduml

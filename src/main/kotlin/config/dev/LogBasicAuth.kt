@@ -28,7 +28,7 @@ import org.springframework.context.annotation.Description
  * Interface, um einen CommandLineRunner zur Ausgabe für
  * _BASIC_-Authentifizierung im Profil _dev_ bereitstellen.
  *
- * @author [Jürgen Zimmermann](mailto:Juergen.Zimmermann@HS-Karlsruhe.de)
+ * @author [Michael Goehrig](mailto: goja1014@HS-Karlsruhe.de)
  */
 interface LogBasicAuth {
     /**
@@ -43,8 +43,8 @@ interface LogBasicAuth {
     @Suppress("Duplicates", "LongMethod")
     fun logBasicAuth(
         // SonarQube "Credentials should not be hard-coded"
-        @Value("\${kunde.password}") password: String,
-        @Value("\${kunde.passwordFalsch}") passwordFalsch: String
+        @Value("\${flug.password}") password: String,
+        @Value("\${flug.passwordFalsch}") passwordFalsch: String
     ) = CommandLineRunner {
         val usernameAdmin = "admin"
         val usernameAlpha1 = "alpha1"

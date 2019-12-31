@@ -1,0 +1,66 @@
+@startuml
+skinparam classAttributeIconSize 0
+skinparam componentStyle uml2
+
+' !pragma horizontalLineBetweenDifferentPackageAllowed
+
+package org.springframework {
+    package web.reactive.function.server {
+        class ServerRequest {
+        }
+        class ServerResponse {
+        }
+    }
+    package hateoas as springHateoas {
+        class EntityModel<E> {
+        }
+    }
+}
+
+package de.hska.flug {
+    package entity {
+        class Flug << entity >> {
+        }
+    }
+
+    package service {
+        class FlugService << service >> {
+        }
+    }
+
+    package rest #DDDDDD {
+        package hateoas #FFFFFF {
+            class FlugModelAssembler << @Component >> {
+            }
+            class ListFlugModelAssembler << @Component >> {
+            }
+        }
+        FlugHandler *-right-> "1" FlugService
+        FlugHandler *-down-> "1" FlugModelAssembler
+        FlugHandler *-down-> "1" ListFlugModelAssembler
+        FlugHandler .down.> Flug
+        FlugHandler .down.> ServerRequest
+        FlugHandler .down.> ServerResponse
+        FlugHandler .down.> EntityModel
+
+        ' [hidden] fuer nicht-existierende Beziehungen als Workaround fuer das Layout
+        FlugModelAssembler -[hidden]-> Flug
+        Flug -[hidden]-> ServerRequest
+
+        class FlugHandler << boundary >> << @Component >> {
+            + suspend findById(request: ServerRequest): ServerResponse
+            + suspend find(request: ServerRequest): ServerResponse
+            + suspend create(request: ServerRequest): ServerResponse
+            + suspend update(request: ServerRequest): ServerResponse
+            + suspend deleteById(request: ServerRequest): ServerResponse
+        }
+    }
+}
+
+hide empty members
+hide empty methods
+hide empty fields
+
+footer (c) Juergen Zimmermann
+
+@enduml

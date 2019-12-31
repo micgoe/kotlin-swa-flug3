@@ -33,7 +33,7 @@ import org.springframework.util.ReflectionUtils.setField
  * Passwort und Rollen zu repräsentieren, die in MongoDB verwaltet
  * werden.
  *
- * @author [Jürgen Zimmermann](mailto:Juergen.Zimmermann@HS-Karlsruhe.de)
+ * @author [Michael Goehrig](mailto: goja1014@HS-Karlsruhe.de)
  *
  * @param id ID der Benutzerkennung iin MongoDB
  * @param username Benutzer- bzw. Loginname

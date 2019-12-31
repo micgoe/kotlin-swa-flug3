@@ -1,0 +1,66 @@
+@startuml
+
+skinparam componentStyle uml2
+
+left to right direction
+
+package de.aircontroll.flug #DDDDDD {
+    [Router]
+
+    package rest <<boundary>> #FFFFFF {
+        [FlugHandler]
+        [FlugMultimediaHandler]
+    }
+
+    package service <<control>> #FFFFFF {
+        [FlugService]
+        [FlugMultimediaService]
+    }
+
+    package mail <<control>> #FFFFFF {
+        [Mailer]
+    }
+
+    package entity <<entity>> #FFFFFF {
+        [Flug]
+    }
+}
+
+cloud {
+    [Spring Data MongoDB]
+}
+
+database "hska (MongoDB)" {
+    [Collection Flug]
+}
+
+queue "Apache Kafka"
+
+node {
+    [Mailserver]
+}
+
+RESTClient ~~> [Router]
+[Router] ..> [FlugHandler]
+[Router] ..> [FlugMultimediaHandler]
+
+[FlugHandler] .up.> [Flug]
+[FlugHandler] --> [FlugService]
+[FlugMultimediaHandler] --> [FlugMultimediaService]
+[FlugService] ..> [Flug]
+
+[FlugService] ~~> [Spring Data MongoDB]
+[FlugMultimediaService] ~~> [Spring Data MongoDB]
+[Spring Data MongoDB] ~~> [Collection Flug]
+
+[FlugService] --> [Mailer]
+[Mailer] .up.> [Flug]
+[Mailer] ~~> [Apache Kafka]
+[Apache Kafka] ~~> [Mailserver]
+
+' [hidden] fuer nicht-existierende Beziehungen als Workaround fuer das Layout
+[FlugHandler] -[hidden]-> [Flug]
+
+footer (c) Michael Goehrig
+
+@enduml
