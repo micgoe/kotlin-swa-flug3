@@ -25,7 +25,7 @@ import org.springframework.context.annotation.Profile
  * Konfigurationsklasse für die Anwendung bzw. den Microservice,
  * falls das Profile _dev_ aktiviert ist.
  *
- * @author [Michael Goehrig](mailto: goja1014@HS-Karlsruhe.de)
+ * @author [Jürgen Zimmermann](mailto:Juergen.Zimmermann@HS-Karlsruhe.de)
  */
 @Configuration(proxyBeanMethods = false)
 @Profile(DEV)
@@ -34,6 +34,7 @@ class DevConfig :
     DbDeleteFiles,
     DbPopulate,
     LogBasicAuth,
+    LogDiscoveryClient,
     LogPasswordEncoding,
     LogSignatureAlgorithms,
     MongoMappingEventsListener

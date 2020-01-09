@@ -43,7 +43,7 @@ interface LogPasswordEncoding {
     @Description("Ausgabe fuer BCrypt")
     fun logBCrypt(
         passwordEncoder: PasswordEncoder,
-        @Value("\${kunde.password}") password: String
+        @Value("\${flug.password}") password: String
     ) = CommandLineRunner {
         val logger = getLogger(LogPasswordEncoding::class.java)
         var verschluesselt = passwordEncoder.encode(password)

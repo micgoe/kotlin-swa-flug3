@@ -15,5 +15,6 @@
     "status": "GO",
     "abflugzeit": "2020-02-27T14:48:00",
     "ankunftzeit": "2020-02-27T15:48:00",
-    "flugzeugtyp": "Boing 737"
+    "flugzeugid": "00000000-0000-0000-0000-000000000001"
+
 }

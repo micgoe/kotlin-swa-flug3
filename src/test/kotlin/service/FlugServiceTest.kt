@@ -285,7 +285,7 @@ class FlugServiceTest {
                         assertThat(flug.id).isNotNull()
                         assertThat(flug.flugnummer).isEqualTo(flugnummer)
                         assertThat(flug.gate).isEqualTo(gate)
-                        assertThat(flug.flugzeugtyp).isEqualTo(flugzeugtyp)
+                        assertThat(flug.flugzeugId).isEqualTo(flugzeugtyp)
                         assertThat(flug.airline).isEqualTo(airline)
                     }
                 }
@@ -488,7 +488,7 @@ class FlugServiceTest {
                 abflugzeit = ABFLUGZEIT,
                 ankunftzeit = ANKUNFTZEIT,
                 gate = gate,
-                flugzeugtyp = flugzeugtyp ?: "",
+                flugzeugId = flugzeugtyp ?: "",
                 airline = airline,
                 status = Status.CANCELED
             )

@@ -300,7 +300,7 @@ class FlugRestTest(@LocalServerPort private val port: Int, ctx: ReactiveWebAppli
                     abflugzeit = NEUE_ABFLUGZEIT,
                     ankunftzeit = NEUE_ANKUNFTZEIT,
                     gate = args.get<Int>(1),
-                    flugzeugtyp = args.get<String>(2),
+                    flugzeugId = args.get<String>(2),
                     airline = args.get<String>(3),
                     status = Status.CANCELED
                 )
@@ -358,7 +358,7 @@ class FlugRestTest(@LocalServerPort private val port: Int, ctx: ReactiveWebAppli
                     abflugzeit = NEUE_ABFLUGZEIT,
                     ankunftzeit = NEUE_ANKUNFTZEIT,
                     gate = args.get<Int>(1),
-                    flugzeugtyp = args.get<String>(2),
+                    flugzeugId = args.get<String>(2),
                     airline = args.get<String>(3),
                     status = Status.CANCELED
                 )

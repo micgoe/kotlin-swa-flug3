@@ -46,7 +46,7 @@ val fluege = flowOf(
             land = "Deutschland"
         ),
         gate = 4,
-        flugzeugtyp = "Airbus A380",
+        flugzeugId = UUID.fromString("00000000-0000-0000-0000-000000000001"),
         airline = "Easy Jet",
         status = Status.build("GO"),
         abflugzeit = LocalDateTime.of(LocalDate.of(2020, 2, 27), LocalTime.of(14, 48, 0)),
@@ -67,7 +67,7 @@ val fluege = flowOf(
             land = "Deutschland"
         ),
         gate = 4,
-        flugzeugtyp = "Airbus A380",
+        flugzeugId = UUID.fromString("00000000-0000-0000-0000-000000000001"),
         airline = "Turkish Airlines",
         status = Status.build("GO"),
         abflugzeit = LocalDateTime.of(LocalDate.of(2020, 6, 27), LocalTime.of(22, 48, 0)),
@@ -87,7 +87,7 @@ val fluege = flowOf(
             land = "United States of America"
         ),
         gate = 4,
-        flugzeugtyp = "Airbus A380",
+        flugzeugId = UUID.fromString("00000000-0000-0000-0000-000000000001"),
         airline = "Lufthansa",
         status = Status.build("GO"),
         abflugzeit = LocalDateTime.of(LocalDate.of(2020, 2, 27), LocalTime.of(14, 48, 0)),
@@ -107,7 +107,7 @@ val fluege = flowOf(
             land = "United States of America"
         ),
         gate = 3,
-        flugzeugtyp = "Airbus A380",
+        flugzeugId = UUID.fromString("00000000-0000-0000-0000-000000000001"),
         airline = "Lufthansa",
         status = Status.build("GO"),
         abflugzeit = LocalDateTime.of(LocalDate.of(2020, 5, 1), LocalTime.of(9, 48, 0)),
@@ -127,7 +127,7 @@ val fluege = flowOf(
             land = "Deutschland"
         ),
         gate = 4,
-        flugzeugtyp = "Airbus A380",
+        flugzeugId = UUID.fromString("00000000-0000-0000-0000-000000000001"),
         airline = "Easy Jet",
         status = Status.build("DP"),
         abflugzeit = LocalDateTime.of(LocalDate.of(2020, 3, 3), LocalTime.of(14, 48, 0)),

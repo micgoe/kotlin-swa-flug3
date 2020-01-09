@@ -12,6 +12,7 @@ import javax.validation.constraints.NotNull
 import javax.validation.constraints.Positive
 import org.springframework.data.annotation.CreatedDate
 import org.springframework.data.annotation.LastModifiedDate
+import org.springframework.data.annotation.Transient
 import org.springframework.data.annotation.Version
 
 /**
@@ -27,7 +28,7 @@ import org.springframework.data.annotation.Version
  * @param abflugzeit Der Abflugzeitpunkt
  * @param ankunftzeit Der Ankunftszeitpunkt
  * @param gate Das Gate des Abflug-Flughafen
- * @param flugzeugtyp Der Flugzeugtyp des Fluges
+ * @param flugzeugId Der Flugzeugtyp des Fluges
  * @param airline Die Airline des angebotenen Fluges
  * @param status Der aktuelles Status des Fluges
  */
@@ -65,7 +66,7 @@ data class Flug(
     @get:Positive(message = "{flug.gate.positive}")
     val gate: Int,
 
-    val flugzeugtyp: String?,
+    val flugzeugId: UUID,
 
     @get:NotEmpty(message = "{flug.airline.notEmpty}")
     val airline: String,
@@ -80,6 +81,8 @@ data class Flug(
     @JsonIgnore
     private val aktualisiert: LocalDateTime? = null
 ) {
+    @Transient
+    var flugzeugTyp: String? = null
 
     /**
      *  Ein Flug kann als gleich behandelt werden, ist die Flugnummer und die Abflugzeit die gleiche. equals überprüft diese Faktoren
@@ -103,7 +106,7 @@ data class Flug(
      */
     override fun toString() = "Flug(id=$id, flugnummer=$flugnummer, abflugFlughafen=$abflugFlughafen, " +
             "ankunftFlughafen=$ankunftFlughafen, abflugzeit=$abflugzeit, ankunftzeit=$ankunftzeit, gate=$gate, " +
-            "flugzeugtyp=$flugzeugtyp, airline=$airline, status=$status, erzeugt=$erzeugt, aktualisiert=$aktualisiert"
+            "flugzeugtyp=$flugzeugId, airline=$airline, status=$status, erzeugt=$erzeugt, aktualisiert=$aktualisiert"
 
     companion object {
         private const val HEX_PATTERN = "[\\dA-Fa-f]"

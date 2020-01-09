@@ -19,10 +19,11 @@
 
 spring:
   # Name fuer Spring Cloud Config und fuer Service Discovery
-  application.name: kunde
-  cloud:
-    config:
-      uri: https://LAPTOP-OKAC982H:8888
-      username: admin
-      password: p
-    consul.config.enabled: false
+  application.name: flug
+  cloud.config:
+    #uri: https://localhost:8888
+    discovery:
+      enabled: true
+      service-id: config
+    username: admin
+    password: p

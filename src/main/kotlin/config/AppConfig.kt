@@ -18,7 +18,9 @@ package de.hska.flug.config
 
 import de.hska.flug.Router
 import de.hska.flug.config.security.PasswordEncoder
+import de.hska.flug.mail.MailOutput
 import org.springframework.boot.context.properties.EnableConfigurationProperties
+import org.springframework.cloud.stream.annotation.EnableBinding
 import org.springframework.context.annotation.Configuration
 import org.springframework.data.mongodb.config.EnableMongoAuditing
 import org.springframework.hateoas.config.EnableHypermediaSupport
@@ -29,17 +31,19 @@ import org.springframework.security.config.annotation.web.reactive.EnableWebFlux
 /**
  * Konfigurationsklasse für die Anwendung bzw. den Microservice.
  *
- * @author [Michael Goehrig](mailto: goja1014@HS-Karlsruhe.de)
+ * @author [Jürgen Zimmermann](mailto:Juergen.Zimmermann@HS-Karlsruhe.de)
  */
 @Configuration(proxyBeanMethods = false)
 @EnableHypermediaSupport(type = [HAL], stacks = [WEBFLUX])
 @EnableConfigurationProperties(MailProps::class, MailAddressProps::class)
 @EnableMongoAuditing
 @EnableWebFluxSecurity
+@EnableBinding(MailOutput::class)
 class AppConfig :
     Router,
     DbConfig,
     PasswordEncoder,
+    Resilience4jConfig,
     SecurityConfig,
     TransactionConfig,
     ValidatorFactoryConfig

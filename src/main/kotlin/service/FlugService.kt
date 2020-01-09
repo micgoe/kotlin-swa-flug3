@@ -5,6 +5,7 @@ import de.hska.flug.config.logger
 import de.hska.flug.config.security.CustomUserDetailsService
 import de.hska.flug.db.CriteriaUtil.getCriteria
 import de.hska.flug.entity.Flug
+import de.hska.flug.entity.Flugzeug
 import de.hska.flug.mail.Mailer
 import java.util.UUID
 import javax.validation.ConstraintViolationException
@@ -12,6 +13,9 @@ import javax.validation.ValidatorFactory
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.reactive.awaitFirst
+import org.springframework.cloud.circuitbreaker.resilience4j.Resilience4JConfigBuilder
+import org.springframework.cloud.client.circuitbreaker.ReactiveCircuitBreakerFactory
 import org.springframework.context.annotation.Lazy
 import org.springframework.data.mongodb.core.ReactiveFluentMongoOperations
 import org.springframework.data.mongodb.core.allAndAwait
@@ -25,10 +29,15 @@ import org.springframework.data.mongodb.core.query
 import org.springframework.data.mongodb.core.query.Query
 import org.springframework.data.mongodb.core.query.Query.query
 import org.springframework.data.mongodb.core.query.isEqualTo
+import org.springframework.data.mongodb.core.query.where
 import org.springframework.data.mongodb.core.remove
 import org.springframework.data.mongodb.core.update
 import org.springframework.stereotype.Service
 import org.springframework.util.MultiValueMap
+import org.springframework.web.reactive.function.client.ExchangeFilterFunctions.basicAuthentication
+import org.springframework.web.reactive.function.client.WebClient
+import org.springframework.web.reactive.function.client.bodyToMono
+import reactor.kotlin.core.publisher.toMono
 
 /**
  * Anwendungslogik für Flug.
@@ -40,13 +49,14 @@ import org.springframework.util.MultiValueMap
 @Service
 class FlugService(
     private val mongo: ReactiveFluentMongoOperations,
-    @Lazy private val userService: CustomUserDetailsService,
     @Lazy val validatorFactory: ValidatorFactory,
-    @Lazy private val mailer: Mailer
+    @Lazy private val mailer: Mailer,
+    private val clientBuilder: WebClient.Builder,
+    private val circuitBreakerFactory: ReactiveCircuitBreakerFactory<Resilience4JConfigBuilder.Resilience4JCircuitBreakerConfiguration, Resilience4JConfigBuilder>
 ) {
 
     private val validator by lazy { validatorFactory.validator }
-
+    private val circuitBreaker = circuitBreakerFactory.create("kunde")
 
     /**
      * Ein Flug mit seiner ID suchen
@@ -59,7 +69,40 @@ class FlugService(
             .matching(query(Flug::id isEqualTo id))
             .awaitOneOrNull()
         logger.debug("findById: {}", flug)
-        return flug
+        if(flug == null) {
+            return flug
+        }
+
+        val (typ) = findFlugzeugById(flug.flugzeugId)
+        return flug.apply { flugzeugTyp = typ }
+    }
+
+    /**
+     *  FLugzeug anhand einer flugzeugId von einem anderen Rest-Server ermitteln
+     *  @param flugzeugId Die Id des gesuchten Flugzeugs
+     *  @return Das gesuchte Flugzeug
+     */
+    suspend fun findFlugzeugById(flugzeugId: UUID): Flugzeug {
+        logger.debug("findFlugzeugById: {}", flugzeugId)
+
+        val client = clientBuilder
+            .baseUrl("https://$flugzeugService")
+            .filter(basicAuthentication(username, password))
+            .build()
+
+        val getFlugzeugFn = client
+            .get()
+            .uri("/$flugzeugId")
+            .retrieve()
+            .bodyToMono<Flugzeug>() //
+            .doOnNext { logger.debug("findFlugzeugById(): {}", it) }
+
+         val fallbackFn = { throwable: Throwable ->
+             logger.warn("findKundeById(): ${throwable.message}", throwable)
+             Flugzeug(typ = "FALLBACK").toMono()
+         }
+
+        return circuitBreaker.run(getFlugzeugFn, fallbackFn).awaitFirst()
     }
 
     /**
@@ -91,10 +134,33 @@ class FlugService(
     }
 
     /**
+     * Flüge zur FluzeugID suchen
+     * @param flugzeugId Die Id des gegebenen Flugzeugs
+     * @return Die gefundenenen Flüge oder ein leeres Flux-Objekt
+     */
+    suspend fun findByFlugzeugId(flugzeugId: UUID): Flow<Flug> {
+        val (flugzeugTyp) = findFlugzeugById(flugzeugId)
+
+        val criteria = where(Flug::flugzeugId).regex("\\.*$flugzeugId\\.*", "i")
+        return mongo.query<Flug>().matching(Query(criteria))
+            .flow()
+            .onEach { flug ->
+                logger.debug("findByFlugzeugId() {}", flug)
+                flug.flugzeugTyp = flugzeugTyp
+            }
+    }
+
+    /**
      * Nach allen Flügen suchen
      * @return Alle Flüge
      */
-    suspend fun findAll() = mongo.query<Flug>().flow()
+    suspend fun findAll(): Flow<Flug> = mongo.query<Flug>()
+        .flow()
+        .onEach { flug ->
+            logger.debug("findAll: {}", flug)
+            val flugzeug = findFlugzeugById(flug.flugzeugId)
+            flug.flugzeugTyp = flugzeug.typ
+        }
 
     /**
      * Ein neuen Flug anlegen
@@ -158,12 +224,12 @@ class FlugService(
      * @param username Username des Benutzers
      * @param role Rolle des Benutzers
      */
-    private suspend fun authorizeUser(username: String, role: String) {
-        val userDetails = userService.findByUsernameAndAwait(username) ?: throw InvalidAccountException(username)
-        val rollen = userDetails.authorities.map { it.authority }
-        if (!rollen.contains(role))
-            throw AccessForbiddenException(rollen)
-    }
+//    private suspend fun authorizeUser(username: String, role: String) {
+//        val userDetails = userService.findByUsernameAndAwait(username) ?: throw InvalidAccountException(username)
+//        val rollen = userDetails.authorities.map { it.authority }
+//        if (!rollen.contains(role))
+//            throw AccessForbiddenException(rollen)
+//    }
 
     /**
      * Validierung eines Flugobjekts
@@ -177,6 +243,15 @@ class FlugService(
     }
 
     companion object {
+
+        /**
+         * Name des FlugzeugService beim Server für _Service Discovery_.
+         */
+        const val flugzeugService = "flugzeug"
+
+        private const val username = "admin"
+        private const val password = "p"
+
         val logger by lazy { logger() }
     }
 }
